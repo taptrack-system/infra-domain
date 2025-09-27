@@ -1,7 +1,9 @@
 # Config Service
 
-Serviço de **configuração centralizada** para todos os microsserviços do sistema.   
+Serviço de **configuração centralizada** para todos os microsserviços do sistema **TapTrack**.  
 Construído com **Spring Boot 3.5.x** e **Spring Cloud Config**.
+
+Parte do repositório **[infra-domain](https://github.com/taptrack-system/infra-domain)**.
 
 ---
 
@@ -67,7 +69,8 @@ docker run -p 8888:8888 config-service:latest
 
 ## Repositório de Configuração
 
-Por padrão, o serviço procura arquivos de configuração em `./config-repo`.
+Por padrão, o serviço procura arquivos de configuração em [
+`config-repo`](https://github.com/taptrack-system/config-repo).
 
 Estrutura de exemplo:
 
@@ -76,7 +79,9 @@ config-repo/
 ├─ application.yml
 ├─ application-dev.yml
 ├─ gateway-service.yml
-└─ gateway-service-dev.yml
+├─ gateway-service-dev.yml
+├─ discovery-service.yml
+└─ discovery-service-dev.yml
 ```
 
 Os clientes acessam as configs via:
@@ -94,7 +99,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/sua-org/config-repo
+          uri: https://github.com/taptrack-system/config-repo.git
 ```
 
 ## Logs
