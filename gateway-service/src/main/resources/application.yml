@@ -7,6 +7,13 @@ server:
 spring:
   application:
     name: gateway-service
+  cache:
+    type: caffeine
+    cache-names:
+      - routesCache
+      - usersCache
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=10m,recordStats
 
 # --- Eureka ---
 eureka:
@@ -36,6 +43,7 @@ logging:
     root: INFO
     org.springframework.cloud.gateway: DEBUG
     com.infradomain.gatewayservice: DEBUG
+    org.springframework.cache: DEBUG
 
 info:
   app:
