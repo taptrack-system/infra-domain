@@ -8,11 +8,9 @@ spring:
 # --- Eureka Server ---
 eureka:
   client:
-    # Eureka Server não se registra nele mesmo
     register-with-eureka: false
     fetch-registry: false
   server:
-    # Útil para desenvolvimento (não recomendado para produção)
     enable-self-preservation: false
 
 # --- Actuator ---
@@ -30,4 +28,4 @@ logging:
     org.springframework.cloud: INFO
     com.infradomain.discoveryservice: DEBUG
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
