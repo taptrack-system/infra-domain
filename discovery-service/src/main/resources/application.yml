@@ -1,0 +1,33 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: discovery-service
+
+# --- Eureka Server ---
+eureka:
+  client:
+    # Eureka Server não se registra nele mesmo
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    # Útil para desenvolvimento (não recomendado para produção)
+    enable-self-preservation: false
+
+# --- Actuator ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+      base-path: /actuator
+
+# --- Logging ---
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud: INFO
+    com.infradomain.discoveryservice: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"

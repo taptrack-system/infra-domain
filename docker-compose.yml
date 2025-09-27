@@ -1,0 +1,43 @@
+# docker-compose.yml
+services:
+  discovery-service:
+    build:
+      context: ./InfrastructureDomain/discovery-service
+      dockerfile: Dockerfile
+    container_name: discovery-service
+    ports:
+      - "8761:8761"
+    networks:
+      - microservices-net
+    environment:
+      - JAVA_OPTS=-Xms128m -Xmx512m
+
+  gateway-service:
+    build:
+      context: ./InfrastructureDomain/gateway-service
+      dockerfile: Dockerfile
+    container_name: gateway-service
+    ports:
+      - "8080:8080"
+    networks:
+      - microservices-net
+    environment:
+      - JAVA_OPTS=-Xms128m -Xmx512m
+      - EUREKA_SERVER=http://discovery-service:8761/eureka/
+    depends_on:
+      - discovery-service
+
+    # config-service
+
+    # auth-service
+
+    # user-service
+
+    # product-service
+
+    # finance-service
+
+networks:
+  microservices-net:
+    driver: bridge
+

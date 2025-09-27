@@ -1,0 +1,39 @@
+# application.yml
+# --- Config Server ---
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        native:
+          # pasta onde o config server vai procurar propriedades no modo 'native'
+          search-locations: file:./config-repo
+          # se quiser usar git, comente o native e habilite 'git' com uri de um repo
+
+# --- Actuator ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env,refresh,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# --- Logging ---
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud: DEBUG
+    org.springframework.boot.actuate: INFO
+    org.springframework.cloud.config.server: DEBUG
+    org.springframework.web: INFO
+    com.infradomain.configservice: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
+  file:
+    name: logs/config-service.log
