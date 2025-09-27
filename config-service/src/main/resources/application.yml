@@ -1,5 +1,6 @@
-# application.yml
 # --- Config Server ---
+# application.yml
+#
 server:
   port: 8888
 
@@ -11,12 +12,6 @@ spring:
       server:
         git:
           uri: https://github.com/taptrack-system/config-repo.git
-#  cloud:
-#    config:
-#      server:
-#        native:
-#          search-locations: file:./config-repo
-
 
 # --- Actuator ---
 management:
@@ -27,17 +22,21 @@ management:
   endpoint:
     health:
       show-details: always
+  info:
+    git:
+      mode: full
 
 # --- Logging ---
 logging:
   level:
     root: INFO
     org.springframework.cloud: DEBUG
-    org.springframework.boot.actuate: INFO
-    org.springframework.cloud.config.server: DEBUG
-    org.springframework.web: INFO
     com.infradomain.configservice: DEBUG
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
-  file:
-    name: logs/config-service.log
+
+info:
+  app:
+    name: ${spring.application.name}
+    description: Centralized configuration service using Spring Cloud Config
+    version: 1.0.0
+    maintainer: Juliane Maran
+    contact: julianemaran@gmail.com

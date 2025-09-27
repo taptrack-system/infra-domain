@@ -1,14 +1,17 @@
-# config-service/Dockerfile
+# Dockerfile (padrão para todos os serviços)
 FROM eclipse-temurin:25-jdk-alpine
 
-# Diretório da aplicação dentro do container
-WORKDIR /config
+# Diretório de trabalho da aplicação
+WORKDIR /app
 
-# Copia o jar gerado pelo Maven
-COPY target/*.jar config.jar
+# Copia o jar compilado para o container
+COPY target/*.jar app.jar
 
-# Expõe a porta do Eureka Server
-EXPOSE 8888
+# Variáveis de memória configuráveis (default)
+ENV JAVA_OPTS="-Xms128m -Xmx512m"
 
-# Comando para rodar a aplicação
-ENTRYPOINT ["java","-jar","config.jar"]
+# Expor a porta definida pelo service
+EXPOSE ${APP_PORT}
+
+# Comando de execução
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
