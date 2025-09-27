@@ -1,7 +1,7 @@
 # Discovery Service
 
-O `discovery-service` é o **Service Discovery** do ecossistema de microsserviços. Ele utiliza **Spring Cloud Netflix
-Eureka** para:
+O `discovery-service` é o **Service Discovery** do ecossistema de microsserviços.  
+Ele utiliza **Spring Cloud Netflix Eureka** para:
 
 - Registro automático de serviços
 - Descoberta de serviços para outros microsserviços (ex: Gateway, Service A/B/C)
@@ -16,15 +16,22 @@ Eureka** para:
 - **Spring Cloud Netflix Eureka Server:** Service Discovery
 - **Spring Boot Actuator:** health e métricas
 
+---
+
 ## Estrutura do Projeto
 
 ```
 discovery-service/
- ├─ src/main/java/com/infra_domain/discovery/
- │   └─ DiscoveryServiceApplication.java
- └─ src/main/resources/
-     └─ application.yml
+├─ src/main/java/com/infradomain/discoveryservice/
+│   └─ DiscoveryServiceApplication.java
+├─ src/main/resources/
+│   └─ application.yml
+├─ Dockerfile
+├─ pom.xml
+└─ README.md
 ```
+
+---
 
 ## Diagrama Arquitetural (Mermaid)
 
@@ -41,64 +48,74 @@ graph TD
         C[Service C]
     end
 
-%% Conexões
     GW -->|Registro/Descoberta| DS
     A -->|Registro/Descoberta| DS
     B -->|Registro/Descoberta| DS
     C -->|Registro/Descoberta| DS
-%% Comunicação indireta via Eureka
     GW -->|Roteamento dinâmico| A
     GW -->|Roteamento dinâmico| B
     GW -->|Roteamento dinâmico| C
-%% Observabilidade
     DS -->|Actuator endpoints| ACT[Actuator /actuator]
-````
+```
 
-**Explicações do diagrama:**
-
-* `DS` → Eureka Server (`discovery-service`)
-* `GW`, `A`, `B`, `C` → microsserviços registrados no Eureka
-* Todos os serviços se registram no `discovery-service` e podem descobrir uns aos outros
-* `Gateway` usa Eureka para roteamento dinâmico
-* Actuator fornece endpoints de health e métricas do Eureka Server
+---
 
 ## Como Rodar
 
-1. Clone do repositório
+1. Clone o repositório:
+
    ```bash
-   git clone <URL_DO_REPOSITORIO>
-   cd discovery-service
+   git clone https://github.com/taptrack-system/infra-domain.git
+   cd infra-domain/discovery-service
    ```
-2. Build do projeto
+
+2. Build do projeto:
+
    ```bash
    mvn clean install
    ```
-3. Rodar o Discovery Service
+
+3. Rodar o Discovery Service:
+
    ```bash
    mvn spring-boot:run
    ```
 
-* Acessível em: `http://localhost:8761`
-* Interface do Eureka: `http://localhost:8761`
-* Actuator:
+Ou via Docker:
+
+```bash
+docker build -t discovery-service:latest .
+docker run -p 8761:8761 discovery-service:latest
+```
+
+---
+
+## Endpoints Principais
+
+* **Interface do Eureka:**
+  `http://localhost:8761`
+
+* **Actuator:**
+
     * `http://localhost:8761/actuator/health`
     * `http://localhost:8761/actuator/metrics`
+    * `http://localhost:8761/actuator/info`
 
 ---
 
 ## Observações
 
-* Serviços clientes (ex: `gateway-service`, `service-a`) devem configurar
-  `eureka.client.service-url.defaultZone=http://localhost:8761/eureka/`.
-* Eureka Server mantém registro de todos os microsserviços ativos e fornece descoberta automática para o Gateway e
-  outros serviços.
-* Para desenvolvimento local, desative a auto-preservação (`enable-self-preservation=false`) para refletir
-  instantaneamente serviços registrados.
+* Serviços clientes (ex: `gateway-service`, `service-a`) devem configurar:
+
+  ```properties
+  eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
+  ```
+* Para desenvolvimento local, é comum desativar a auto-preservação (`enable-self-preservation=false`) para refletir
+  mudanças mais rapidamente.
+* Em produção, recomenda-se manter a auto-preservação ativa.
 
 ---
 
-## Próximos Passos
+## License
 
-* Registrar o `gateway-service` e outros microsserviços no Eureka
-* Integrar com rotas dinâmicas no Gateway usando os nomes dos serviços registrados
-* Monitorar métricas e health checks dos serviços via Actuator
+Este projeto está licenciado sob a [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).

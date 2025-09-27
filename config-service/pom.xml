@@ -12,8 +12,8 @@
     <artifactId>config-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>config-service</name>
-    <description>Centralized Configuration</description>
-    <url>https://github.com/taptrack-system</url>
+    <description>Serviço de configuração centralizada para os microsserviços do TapTrack</description>
+    <url>https://github.com/taptrack-system/infra-domain/tree/main/config-service</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -28,10 +28,10 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:https://github.com/sua-org/config-service.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/sua-org/config-service.git</developerConnection>
+        <connection>scm:git:https://github.com/taptrack-system/infra-domain.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/taptrack-system/infra-domain.git</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/sua-org/config-service</url>
+        <url>https://github.com/taptrack-system/infra-domain/tree/main/config-service</url>
     </scm>
     <properties>
         <java.version>25</java.version>
