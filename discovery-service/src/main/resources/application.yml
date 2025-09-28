@@ -37,6 +37,7 @@ logging:
     root: INFO
     com.infradomain.discoveryservice: DEBUG
     org.springframework.cache: DEBUG
+    com.netflix.discovery: WARN
 
 info:
   app:
