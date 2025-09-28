@@ -12,6 +12,16 @@ spring:
       server:
         git:
           uri: https://github.com/taptrack-system/config-repo.git
+          default-label: main
+          username: ${GIT_USERNAME}
+          password: ${GIT_PASS}
+  cache:
+    type: caffeine
+    cache-names:
+      - routesCache
+      - usersCache
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=10m,recordStats
 
 # --- Actuator ---
 management:
@@ -32,6 +42,7 @@ logging:
     root: INFO
     org.springframework.cloud: DEBUG
     com.infradomain.configservice: DEBUG
+    org.springframework.cache: DEBUG
 
 info:
   app:

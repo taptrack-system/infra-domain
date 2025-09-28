@@ -7,6 +7,13 @@ server:
 spring:
   application:
     name: discovery-service
+  cache:
+    type: caffeine
+    cache-names:
+      - routesCache
+      - usersCache
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=10m,recordStats
 
 # --- Eureka Server ---
 eureka:
@@ -29,6 +36,7 @@ logging:
   level:
     root: INFO
     com.infradomain.discoveryservice: DEBUG
+    org.springframework.cache: DEBUG
 
 info:
   app:
