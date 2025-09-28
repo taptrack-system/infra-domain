@@ -35,9 +35,11 @@ management:
 logging:
   level:
     root: INFO
+    org.springframework: INFO
+    com.netflix.discovery: WARN        # Evita poluir console durante shutdown
     com.infradomain.discoveryservice: DEBUG
-    org.springframework.cache: DEBUG
-    com.netflix.discovery: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 info:
   app:
