@@ -1,0 +1,53 @@
+# --- Config Server ---
+# application.yml
+#
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/taptrack-system/config-repo.git
+          default-label: main
+          username: ${GIT_USERNAME}
+          password: ${GIT_PASS}
+  cache:
+    type: caffeine
+    cache-names:
+      - routesCache
+      - usersCache
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=10m,recordStats
+
+# --- Actuator ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env,refresh,metrics
+  endpoint:
+    health:
+      show-details: always
+  info:
+    git:
+      mode: full
+
+# --- Logging ---
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud: DEBUG
+    com.infradomain.configservice: DEBUG
+    org.springframework.cache: DEBUG
+
+info:
+  app:
+    name: ${spring.application.name}
+    description: Centralized configuration service using Spring Cloud Config
+    version: 1.0.0
+    maintainer: Juliane Maran
+    contact: julianemaran@gmail.com
