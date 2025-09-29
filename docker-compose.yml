@@ -62,6 +62,7 @@ services:
       - APP_PORT=8080
       - JAVA_OPTS=-Xms128m -Xmx512m
       - EUREKA_SERVER=http://discovery-service:8761/eureka/
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
     networks:
       - microservices-net
       - shared-microservices-network # Conecte a rede externa
