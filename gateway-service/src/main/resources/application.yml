@@ -7,6 +7,8 @@ server:
 spring:
   application:
     name: gateway-service
+  config:
+    import: "configserver:http://config-service:8888" # Define a URL do Config Server diretamente aqui
   cache:
     type: caffeine
     cache-names:
