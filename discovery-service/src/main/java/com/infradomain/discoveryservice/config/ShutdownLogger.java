@@ -18,7 +18,7 @@ public class ShutdownLogger {
 
   @PreDestroy
   public void onShutdown() {
-    log.info("🛑 Discovery Service shutting down gracefully. Eureka connections will be closed.");
+    log.info("🛑 {} shutting down gracefully...", getClass().getSimpleName());
   }
 
 }
