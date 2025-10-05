@@ -7,19 +7,14 @@ server:
 spring:
   application:
     name: discovery-service
-  cache:
-    type: caffeine
-    cache-names:
-      - routesCache
-      - usersCache
-    caffeine:
-      spec: maximumSize=500,expireAfterWrite=10m,recordStats
 
 # --- Eureka Server ---
 eureka:
   client:
-    register-with-eureka: false
+    register-with-eureka: false  # servidor não se registra
     fetch-registry: false
+  server:
+    wait-time-in-ms-when-sync-empty: 0
 
 # --- Actuator ---
 management:
