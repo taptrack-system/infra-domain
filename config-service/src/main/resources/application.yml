@@ -1,0 +1,57 @@
+# ============================================
+# Config Service - application.yml
+# ============================================
+
+# --- Info (metadados da aplicação) ---
+info:
+  app:
+    name: ${spring.application.name}
+    description: Servidor de Configuração Central do Sistema TapTrack
+    version: 0.0.1-SNAPSHOT
+    maintainer: Juliane Maran
+    contact: julianemaran@gmail.com
+    license: Apache-2.0
+    homepage: https://github.com/taptrack-system/infra-domain
+  build:
+    artifact: ${spring.application.name}
+    version: 1.0.0
+    time: ${BUILD_TIME:2025-09-27T00:00:00Z}
+    commit: ${GIT_COMMIT:unknown}
+  environment:
+    activeProfiles: ${spring.profiles.active:default}
+    javaVersion: ${java.version}
+    os: ${os.name}
+
+# --- Logging ---
+logging:
+  level:
+    root: INFO
+    com.infradomain.configservice: DEBUG
+    org.springframework: INFO
+    com.netflix.discovery: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# --- Spring Cloud Config Server ---
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          search-paths:
+            - infra-domain
+            - identity-access-domain
+            - finance-domain
+            - supplier-domain
+            - product-beer-domain
+            - tap-pos-service
+
+# --- Actuator (monitoramento) ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env
+  endpoint:
+    health:
+      show-details: always
