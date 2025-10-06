@@ -1,0 +1,28 @@
+# ============================================
+# Config Service - bootstrap.yml
+# ============================================
+
+spring:
+  application:
+    name: config-service
+  # --- Profile ativo ---
+  profiles:
+    active: dev
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/taptrack-system/config-repo
+          clone-on-start: true
+          default-label: main
+      fail-fast: true
+
+server:
+  port: 8888
+
+# --- Logging mínimo durante bootstrap ---
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.config: INFO
+    org.eclipse.jgit: WARN

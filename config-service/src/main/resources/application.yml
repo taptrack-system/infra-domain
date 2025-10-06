@@ -1,51 +1,13 @@
-# --- Config Server ---
-# application.yml
-#
-server:
-  port: 8888
+# ============================================
+# Config Service - application.yml
+# ============================================
 
-spring:
-  application:
-    name: config-service
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/taptrack-system/config-repo.git
-          default-label: main
-          username: ${GIT_USERNAME}
-          password: ${GIT_PASS}
-  cache:
-    type: caffeine
-    cache-names:
-      - routesCache
-      - usersCache
-    caffeine:
-      spec: maximumSize=500,expireAfterWrite=10m,recordStats
-
-# --- Actuator ---
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics,loggers,httptrace,env
-      base-path: /actuator
-  endpoint:
-    health:
-      show-details: ALWAYS
-  metrics:
-    enable:
-      all: true
-  info:
-    git:
-      mode: full
-
-# --- Info ---
+# --- Info (metadados da aplicação) ---
 info:
   app:
     name: ${spring.application.name}
-    description: Centralized configuration service using Spring Cloud Config
-    version: 1.0.0
+    description: Servidor de Configuração Central do Sistema TapTrack
+    version: 0.0.1-SNAPSHOT
     maintainer: Juliane Maran
     contact: julianemaran@gmail.com
     license: Apache-2.0
@@ -53,7 +15,7 @@ info:
   build:
     artifact: ${spring.application.name}
     version: 1.0.0
-    time: ${BUILD_TIME:2025-09-27T00:00:00Z}   # opcional, pode ser gerado pelo Maven
+    time: ${BUILD_TIME:2025-09-27T00:00:00Z}
     commit: ${GIT_COMMIT:unknown}
   environment:
     activeProfiles: ${spring.profiles.active:default}
@@ -64,8 +26,32 @@ info:
 logging:
   level:
     root: INFO
-    org.springframework.cloud: DEBUG
     com.infradomain.configservice: DEBUG
-    org.springframework.cache: DEBUG
+    org.springframework: INFO
+    com.netflix.discovery: WARN
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# --- Spring Cloud Config Server ---
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          search-paths:
+            - infra-domain
+            - identity-access-domain
+            - finance-domain
+            - supplier-domain
+            - product-beer-domain
+            - tap-pos-service
+
+# --- Actuator (monitoramento) ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env
+  endpoint:
+    health:
+      show-details: always
