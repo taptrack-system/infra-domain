@@ -1,0 +1,28 @@
+# ============================================
+# Discovery Service - discovery-service.yml
+# ============================================
+
+spring:
+  application:
+    name: discovery-service
+  profiles:
+    active: dev
+
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    enable-self-preservation: false
+
+logging:
+  level:
+    com.netflix.eureka: INFO
+    org.springframework.cloud.netflix.eureka: INFO
+
+info:
+  app:
+    description: Serviço de Descoberta Eureka do Sistema TapTrack

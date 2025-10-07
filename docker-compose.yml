@@ -1,5 +1,14 @@
 version: "3.9"
 
+networks:
+  microservices-net:
+    driver: bridge
+  # Rede externa
+  shared-microservices-network:
+    external: true
+  default:
+    name: traptack-network
+
 services:
 
   config-repo:
@@ -22,6 +31,20 @@ services:
     ports:
       - "8888:8888"
     environment:
+      - APP_PORT=8888
+      - JAVA_OPTS=-Xms128m -Xmx512m
+      - GIT_USERNAME=${GIT_USERNAME}
+      - GIT_PASSWORD=${GIT_PASS}
+    networks:
+      - microservices-net
+      - shared-microservices-network # Conecte a rede externa
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "http://localhost:8888/actuator/health || exit 1" ]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 5s
+=======
       SPRING_PROFILES_ACTIVE: dev
       CONFIG_REPO_URI: git@github.com:taptrack-system/config-repo.git
       # Se for SSH, monte o secret como volume

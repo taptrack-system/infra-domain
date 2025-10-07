@@ -1,0 +1,64 @@
+# ============================================
+# Gateway Service - gateway-service.yml
+# ============================================
+
+spring:
+  application:
+    name: gateway-service
+  profiles:
+    active: dev
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: identity-profiles
+          uri: lb://identity-profiles-service
+          predicates:
+            - Path=/api/v1/users/**, /api/v1/roles/**, /api/v1/audit-log/**
+        - id: finance
+          uri: lb://finance-service
+          predicates:
+            - Path=/api/v1/finances/**
+        - id: supplier
+          uri: lb://supplier-service
+          predicates:
+            - Path=/api/v1/suppliers/**
+        - id: product
+          uri: lb://product-service
+          predicates:
+            - Path=/api/v1/products/**
+        - id: beer
+          uri: lb://beer-service
+          predicates:
+            - Path=/api/v1/beer/**
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods: "GET,POST,PUT,DELETE,OPTIONS"
+            allowedHeaders: "*"
+            allowCredentials: true
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+info:
+  app:
+    description: API Gateway do Sistema TapTrack (roteamento central)
