@@ -262,9 +262,9 @@ spring:
 
 * **Não armazene senhas ou tokens** sensíveis em repositórios públicos. 
   * Utilize **Spring Cloud Vault** ou **HashiCorp Vault** para segredos.
-* 🧩 Use perfis (`application-dev.yml`, `application-prod.yml`) para ambientes distintos.
-* 🔒 Restrinja endpoints do Actuator a redes seguras.
-* 📊 Centralize logs e métricas via **ELK** ou **Prometheus/Grafana**.
+* Use perfis (`application-dev.yml`, `application-prod.yml`) para ambientes distintos.
+* Restrinja endpoints do Actuator a redes seguras.
+* Centralize logs e métricas via **ELK** ou **Prometheus/Grafana**.
 
 ---
 

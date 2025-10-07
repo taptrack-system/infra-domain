@@ -2,25 +2,28 @@
 # Config Service - application.yml
 # ============================================
 
-# --- Info (metadados da aplicação) ---
-info:
-  app:
-    name: ${spring.application.name}
-    description: Servidor de Configuração Central do Sistema TapTrack
-    version: 0.0.1-SNAPSHOT
-    maintainer: Juliane Maran
-    contact: julianemaran@gmail.com
-    license: Apache-2.0
-    homepage: https://github.com/taptrack-system/infra-domain
-  build:
-    artifact: ${spring.application.name}
-    version: 1.0.0
-    time: ${BUILD_TIME:2025-09-27T00:00:00Z}
-    commit: ${GIT_COMMIT:unknown}
-  environment:
-    activeProfiles: ${spring.profiles.active:default}
-    javaVersion: ${java.version}
-    os: ${os.name}
+spring:
+  application:
+    name: config-service
+  profiles:
+    active: native
+
+  cloud:
+    config:
+      server:
+        native:
+          search-locations:
+            - file:./config-repo
+            - file:./config-repo/infra-domain
+            - file:./config-repo/identity-access-domain
+            - file:./config-repo/finance-domain
+            - file:./config-repo/supplier-domain
+            - file:./config-repo/product-beer-domain
+            - file:./config-repo/tap-pos-domain
+      fail-fast: true
+
+server:
+  port: 8888
 
 # --- Logging ---
 logging:
@@ -28,25 +31,10 @@ logging:
     root: INFO
     com.infradomain.configservice: DEBUG
     org.springframework: INFO
-    com.netflix.discovery: WARN
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
-# --- Spring Cloud Config Server ---
-spring:
-  cloud:
-    config:
-      server:
-        git:
-          search-paths:
-            - infra-domain
-            - identity-access-domain
-            - finance-domain
-            - supplier-domain
-            - product-beer-domain
-            - tap-pos-service
-
-# --- Actuator (monitoramento) ---
+# --- Actuator ---
 management:
   endpoints:
     web:
@@ -55,3 +43,21 @@ management:
   endpoint:
     health:
       show-details: always
+
+# --- Informações da aplicação ---
+info:
+  app:
+    name: Config Service
+    description: Servidor Central de Configuração do Sistema TapTrack
+    version: 0.0.1-SNAPSHOT
+    maintainer: Juliane Maran
+    contact: julianemaran@gmail.com
+    license: Apache-2.0
+  build:
+    version: 1.0.0
+    time: ${BUILD_TIME:2025-10-07T00:00:00Z}
+    commit: ${GIT_COMMIT:local}
+  environment:
+    activeProfiles: ${spring.profiles.active:default}
+    javaVersion: ${java.version}
+    os: ${os.name}
