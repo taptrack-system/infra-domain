@@ -15,18 +15,30 @@
     <description>Centralized configuration server that manages and provides application settings for all microservices
         from a remote Git repository using Spring Cloud Config Server.
     </description>
-    <url/>
+    <url>https://github.com/taptrack-system/infra-domain/tree/main/config-service</url>
+
     <licenses>
-        <license/>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
     </licenses>
     <developers>
-        <developer/>
+        <developer>
+            <id>JuhMaran</id>
+            <name>Juliane Maran</name>
+            <email>julianemaran@gmail.com</email>
+            <roles>
+                <role>Backend Developer</role>
+            </roles>
+        </developer>
     </developers>
     <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
+        <connection>scm:git:https://github.com/taptrack-system/infra-domain.git</connection>
+        <developerConnection>scm:git:git@github.com:taptrack-system/infra-domain.git</developerConnection>
+        <url>https://github.com/taptrack-system/infra-domain/tree/main/config-service</url>
+        <tag>main</tag>
     </scm>
     <properties>
         <java.version>25</java.version>
