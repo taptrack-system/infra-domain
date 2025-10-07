@@ -6,10 +6,11 @@ spring:
     name: Discovery Service
     version: 1.0.0
   # Profile default
-  profiles:
-    active: dev
+  #  profiles:
+  #    active: dev
   # Conexão com Config Server
   cloud:
     config:
       uri: http://config-service:8888
       fail-fast: true
+      enabled: true
