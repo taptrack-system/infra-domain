@@ -1,0 +1,52 @@
+# docker-compose.yml - Ambiente de Produção (3 nós)
+version: '3.9'
+
+services:
+  eureka-node1:
+    build: .
+    container_name: eureka-node1
+    hostname: eureka-node1
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - HOSTNAME=eureka-node1
+      - HOST_IP=10.0.0.10
+    ports:
+      - "8761:8761"
+    networks:
+      eureka-net:
+        ipv4_address: 10.0.0.10
+
+  eureka-node2:
+    build: .
+    container_name: eureka-node2
+    hostname: eureka-node2
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - HOSTNAME=eureka-node2
+      - HOST_IP=10.0.0.11
+    ports:
+      - "8762:8761"
+    networks:
+      eureka-net:
+        ipv4_address: 10.0.0.11
+
+  eureka-node3:
+    build: .
+    container_name: eureka-node3
+    hostname: eureka-node3
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - HOSTNAME=eureka-node3
+      - HOST_IP=10.0.0.12
+    ports:
+      - "8763:8761"
+    networks:
+      eureka-net:
+        ipv4_address: 10.0.0.12
+
+networks:
+  eureka-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24

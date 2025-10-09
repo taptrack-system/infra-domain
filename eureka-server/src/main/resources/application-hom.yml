@@ -1,26 +1,35 @@
+# application-hom.yml (Ambiente de Homologação - Cluster com 2 nós)
 server:
   port: 8761
 
 spring:
   application:
-    name: eureka-server
+    name: Eureka Server
   profiles:
     active: hom
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-hom-node1:8761/eureka/,http://eureka-hom-node2:8761/eureka/
   server:
     enable-self-preservation: true          # mantém autopreservação ativa
     eviction-interval-timer-in-ms: 10000    # a cada 10s
     renewal-percent-threshold: 0.75         # exige 75% das renovações esperadas
   instance:
     prefer-ip-address: true
-    hostname: eureka-hom.local
+    hostname: ${HOSTNAME}
+    ip-address: ${HOST_IP}
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
 
 management:
   endpoints:
     web:
       exposure:
         include: "health,info,metrics"
+
+# Cada nó (eureka-hom-node1, eureka-hom-node2) deve ter o hostname configurado via variável de ambiente (HOSTNAME).
+# Ambos os nós usarão a mesma configuração — o defaultZone deve listar os peers.

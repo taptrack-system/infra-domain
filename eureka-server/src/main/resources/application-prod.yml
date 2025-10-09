@@ -1,0 +1,39 @@
+# application-prod.yml (Ambiente de Produção - Cluster com 3 nós)
+server:
+  port: 8761
+
+spring:
+  application:
+    name: Eureka Server
+  profiles:
+    active: prod
+  cache:
+    type: CAFFEINE
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      # Cluster com 3 nós replicando entre si
+      defaultZone: http://eureka-node1:8761/eureka/,http://eureka-node2:8761/eureka/,http://eureka-node3:8761/eureka/
+  server:
+    enable-self-preservation: true
+    eviction-interval-timer-in-ms: 60000      # a cada 1 min
+    renewal-percent-threshold: 0.85
+    response-cache-update-interval-ms: 3000
+    peer-eureka-nodes-update-interval-ms: 600000
+    wait-time-in-ms-when-sync-empty: 0
+  instance:
+    prefer-ip-address: true
+    ip-address: ${HOST_IP}
+    hostname: ${HOSTNAME}
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics,env"

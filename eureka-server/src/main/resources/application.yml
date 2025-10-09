@@ -1,25 +1,29 @@
-# application.yml
+# application.yml (Base)
 server:
   port: 8761
 
 spring:
   application:
-    name: Eureka Server
+    name: eureka-server
+  profiles:
+    active: local
+  cache:
+    type: CAFFEINE
 
 eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
   server:
-    enable-self-preservation: false
-    wait-time-in-ms-when-sync-empty: 0
+    enable-self-preservation: false         # desabilita autopreservação (ambiente volátil)
+    eviction-interval-timer-in-ms: 5000     # executa verificação a cada 5s
+    renewal-percent-threshold: 0.5          # tolera 50% das renovações
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
 
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
-
+        include: "health,info"
