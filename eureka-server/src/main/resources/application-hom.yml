@@ -1,0 +1,26 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: eureka-server
+  profiles:
+    active: hom
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    enable-self-preservation: true          # mantém autopreservação ativa
+    eviction-interval-timer-in-ms: 10000    # a cada 10s
+    renewal-percent-threshold: 0.75         # exige 75% das renovações esperadas
+  instance:
+    prefer-ip-address: true
+    hostname: eureka-hom.local
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics"

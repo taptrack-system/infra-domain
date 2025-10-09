@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: hom
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-hom.local:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    hostname: api-gateway-hom.local
+    lease-renewal-interval-in-seconds: 30      # padrão recomendado
+    lease-expiration-duration-in-seconds: 90   # 3 tentativas antes de expirar
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics"
