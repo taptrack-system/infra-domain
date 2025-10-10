@@ -1,3 +1,5 @@
+# application.yml
+# API Gateway
 server:
   port: 8080
 
