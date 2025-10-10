@@ -1,0 +1,51 @@
+# application.yml
+# API Gateway
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+    version: 1.0.0
+  config:
+    import: optional:configserver:http://localhost:8888
+  # --- Spring Cloud ---
+  cloud:
+    discovery:
+      enabled: true
+    loadbalancer:
+      cache:
+        caffeine:
+          spec: maximumSize=500,expireAfterAccess=600s
+
+# --- Eureka Client ---
+eureka:
+  client:
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+
+# --- Actuator ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  endpoint:
+    health:
+      show-details: always
+
+# --- Logging ---
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    root: INFO
+    org.springframework.cloud.gateway: INFO
+    org.springframework.web: INFO
+    reactor.netty: WARN

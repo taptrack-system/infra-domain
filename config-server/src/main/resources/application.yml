@@ -1,0 +1,50 @@
+# application.yml
+# Config Server
+server:
+  port: 8888
+
+# Configurações Locais
+spring:
+  application:
+    name: config-server
+    version: 1.0.0
+  profiles:
+    active: native # Usando arquivos locais neste momento
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config # pasta local onde ficarão os arquivos de configuração
+    discovery:
+      enabled: true # integração com Eureka Server
+
+eureka:
+  client:
+    enabled: true
+    register-with-eureka: true       # registra o Config Server no Eureka
+    fetch-registry: true             # obtém informações do Eureka
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  # endereço do Eureka Server
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+    metadata-map:
+      instanceId: ${spring.application.name}:${server.port}
+      version: ${spring.application.version}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    root: INFO
+    org.springframework.cloud: INFO
+    org.springframework.boot: INFO
