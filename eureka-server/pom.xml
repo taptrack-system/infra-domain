@@ -34,6 +34,7 @@
         <hibernate-validator.version>9.0.1.Final</hibernate-validator.version>
         <thoughtworks.xstream.version>1.4.21</thoughtworks.xstream.version>
         <caffeine.version>3.2.2</caffeine.version>
+        <spring-cloud-starter.version>4.3.0</spring-cloud-starter.version>
     </properties>
     <dependencies>
         <dependency>
@@ -51,6 +52,19 @@
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
 
+        <!-- Spring Cloud Config Client -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+            <version>${spring-cloud-starter.version}</version>
+        </dependency>
+        <!-- Habilitar o appender JSON -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>8.1</version>
+        </dependency>
+
         <!-- Trata das Vulnerabilidades -->
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
@@ -63,12 +77,6 @@
             <version>${commons-lang3.version}</version>
         </dependency>
 
-        <!-- Atualiza XStream para evitar o warning do Unsafe -->
-        <dependency>
-            <groupId>com.thoughtworks.xstream</groupId>
-            <artifactId>xstream</artifactId>
-            <version>${thoughtworks.xstream.version}</version>
-        </dependency>
         <!-- Bean Validation (elimina o warning de "NoProviderFoundException") -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>

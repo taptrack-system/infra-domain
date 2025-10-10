@@ -1,41 +1,49 @@
-# application.yml
 server:
   port: 8080
 
 spring:
   application:
-    name: API Gateway
+    name: api-gateway
     version: 1.0.0
+  config:
+    import: optional:configserver:http://localhost:8888
+  # --- Spring Cloud ---
   cloud:
     discovery:
       enabled: true
-  cache:
-    type: CAFFEINE
+    loadbalancer:
+      cache:
+        caffeine:
+          spec: maximumSize=500,expireAfterAccess=600s
 
+# --- Eureka Client ---
 eureka:
   client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+    enabled: true
     register-with-eureka: true
     fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
   instance:
-    prefer-ip-address: false
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
 
+# --- Actuator ---
 management:
   endpoints:
     web:
       exposure:
-        include: "info,gateway,health"
+        include: health, info, metrics, prometheus
   endpoint:
     health:
       show-details: always
 
+# --- Logging ---
 logging:
+  config: classpath:logback-spring.xml
   level:
-    org.springframework.cloud.gateway: TRACE
-    org.springframework.http.server.reactive: DEBUG
-    org.springframework.web.reactive: DEBUG
-    com.netflix.discovery: DEBUG
-    org.springframework.cloud.netflix.eureka: DEBUG
-    web: DEBUG
+    root: INFO
+    org.springframework.cloud.gateway: INFO
+    org.springframework.web: INFO
+    reactor.netty: WARN
