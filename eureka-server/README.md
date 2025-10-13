@@ -264,3 +264,18 @@ Cada nó aparecerá registrado nos outros dois, e o dashboard do Eureka mostrar�
 | `Bean Validation provider not found` | Adicionar Hibernate Validator                 |
 | `Default LoadBalancer cache`         | Adicionar Caffeine e configurar cache         |
 | `Replica size empty`                 | Configuração dos peers nos ambientes hom/prod |
+
+---
+
+### Gerar o JAR do projeto
+
+```bash
+cd eureka-server
+mvn clean package -DskipTests
+```
+
+### Subir os containers
+
+```bash
+docker compose up --build
+```
