@@ -137,3 +137,18 @@ Essas operações são controladas pelas chaves dentro de `eureka.client` e `eur
 | `Unsafe::staticFieldBase` (Guice)                   | Acesso AOP interno      | ⚪ Baixa        | Atualizar Guice (ou ignorar)      |
 | `Sharing is only supported for boot loader classes` | CDS do JVM              | ⚪ Baixa        | Ignorar                           |
 | `Eureka HTTP Client uses RestTemplate`              | Log normal              | 🟢 Informativo | Nenhuma ação necessária           |
+
+---
+
+### Gerar o JAR do projeto
+
+```bash
+cd api-gateway
+mvn clean package -DskipTests
+```
+
+### Subir os containers
+
+```bash
+docker compose up --build
+```
