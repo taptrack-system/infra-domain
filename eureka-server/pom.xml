@@ -12,7 +12,7 @@
     <artifactId>eureka-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Eureka Server</name>
-    <description>Eureka Server - Spring Cloud Netflix</description>
+    <description>Spring Boot 3.5.6 Eureka Server (Java 25)</description>
     <url/>
     <licenses>
         <license/>
@@ -29,12 +29,6 @@
     <properties>
         <java.version>25</java.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
-        <httpclient5.version>5.5.1</httpclient5.version>
-        <commons-lang3.version>3.19.0</commons-lang3.version>
-        <hibernate-validator.version>9.0.1.Final</hibernate-validator.version>
-        <thoughtworks.xstream.version>1.4.21</thoughtworks.xstream.version>
-        <caffeine.version>3.2.2</caffeine.version>
-        <spring-cloud-starter.version>4.3.0</spring-cloud-starter.version>
     </properties>
     <dependencies>
         <dependency>
@@ -52,43 +46,18 @@
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.21</version>
+        </dependency>
+
         <!-- Spring Cloud Config Client -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-            <version>${spring-cloud-starter.version}</version>
-        </dependency>
-        <!-- Habilitar o appender JSON -->
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-            <version>8.1</version>
-        </dependency>
-
-        <!-- Trata das Vulnerabilidades -->
-        <dependency>
-            <groupId>org.apache.httpcomponents.client5</groupId>
-            <artifactId>httpclient5</artifactId>
-            <version>${httpclient5.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
-        </dependency>
-
-        <!-- Bean Validation (elimina o warning de "NoProviderFoundException") -->
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate-validator.version}</version>
-        </dependency>
-        <!-- Caffeine Cache (recomendado para produção) -->
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-            <version>${caffeine.version}</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-config</artifactId>-->
+        <!--            <version>${spring-cloud-starter.version}</version>-->
+        <!--        </dependency>-->
 
         <!-- Testing -->
         <dependency>
