@@ -1,59 +1,49 @@
-# docker-compose.yml
-# Infra Domain
+# infra-domain/docker-compose.yml
 services:
-  # =========================
-  # EUREKA SERVER
-  # =========================
   eureka-server:
-    container_name: eureka-server
     image: eureka-server:latest
     build:
-      context: ./eureka-server     # Caminho do projeto Eureka Server
+      context: ./eureka-server
       dockerfile: Dockerfile
+    container_name: eureka-server
     ports:
       - "8761:8761"
-    environment:
-      - SPRING_PROFILES_ACTIVE=default
-      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
-      - EUREKA_CLIENT_FETCH_REGISTRY=false
-      - SPRING_CLOUD_CONFIG_ENABLED=false
     networks:
-      - spring-net
+      - taptrack-network
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
-      interval: 15s
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8761/eureka/apps"]
+      interval: 10s
       timeout: 5s
       retries: 5
-  # =========================
-  # API GATEWAY
-  # =========================
+      start_period: 20s
+
   api-gateway:
-    container_name: api-gateway
     image: api-gateway:latest
     build:
-      context: ./api-gateway       # Caminho do projeto API Gateway
+      context: ./api-gateway
       dockerfile: Dockerfile
+    container_name: api-gateway
+    depends_on:
+      - eureka-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev,h2
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     ports:
       - "8080:8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=default
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
-      - SPRING_CLOUD_CONFIG_ENABLED=false
-    depends_on:
-      eureka-server:
-        condition: service_healthy
     networks:
-      - spring-net
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
-      interval: 15s
-      timeout: 5s
-      retries: 5
+      - taptrack-network
 
-# =========================
-# REDE COMPARTILHADA ENTRE SERVIÇOS
-# =========================
+  h2:
+    image: oscarfonts/h2
+    container_name: h2
+    ports:
+      - "9092:9092"
+      - "8082:8082"
+    environment:
+      - H2_OPTIONS=-ifNotExists
+    networks:
+      - taptrack-network
+
 networks:
-  spring-net:
+  taptrack-network:
     driver: bridge

@@ -1,15 +1,18 @@
-# Eureka Server
-# Etapa 1: build
+# Etapa 1: Build da aplicação
 FROM maven:3.9.11-eclipse-temurin-25 AS build
 WORKDIR /app
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Etapa 2: runtime
+# Etapa 2: Runtime da aplicação
 FROM eclipse-temurin:25-jdk-alpine
 WORKDIR /app
-COPY target/eureka-server-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 8761
-ENTRYPOINT ["java", "-jar", "app.jar"]
+COPY --from=build /app/target/*.jar app.jar
+
+# Variáveis padrão (sobrescrevíveis)
+ENV JAVA_OPTS="-Xms256m -Xmx512m"
+ENV APP_PORT=8761
+
+EXPOSE ${APP_PORT}
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
