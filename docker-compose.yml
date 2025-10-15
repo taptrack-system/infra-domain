@@ -1,51 +1,44 @@
-# docker-compose.yml
-# Infra Domain
-version: '3.9'
+# infra-domain/docker-compose.yml
+networks:
+  taptrack-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
 
 services:
-  config-server:
-    build:
-      context: ./config-server
-      dockerfile: Dockerfile
-    container_name: config-server
-    ports:
-      - "8888:8888"
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-
   eureka-server:
-    build:
-      context: ./eureka-server
-      dockerfile: Dockerfile
+    image: eureka-server
+    build: ./eureka-server
     container_name: eureka-server
     ports:
       - "8761:8761"
-    depends_on:
-      config-server:
-        condition: service_healthy
+    environment:
+      - APP_PORT=8761
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
-      interval: 30s
+      test: [ "CMD", "wget", "--spider", "http://localhost:8761/eureka/apps" ]
+      interval: 10s
       timeout: 5s
-      retries: 3
+      retries: 10
+      start_period: 15s
+    networks:
+      taptrack-net:
+        ipv4_address: 172.20.0.2
 
   api-gateway:
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
+    image: api-gateway
+    build: ./api-gateway
     container_name: api-gateway
-    ports:
-      - "8080:8080"
     depends_on:
-      config-server:
-        condition: service_healthy
       eureka-server:
         condition: service_healthy
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
-      interval: 30s
-      timeout: 5s
-      retries: 3
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev,h2
+      - JAVA_OPTS=-Xms256m -Xmx512m
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://172.20.0.2:8761/eureka/
+      - APP_PORT=8080
+    networks:
+      taptrack-net:
+        ipv4_address: 172.20.0.3
