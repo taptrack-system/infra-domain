@@ -31,8 +31,15 @@ public class GatewayRoutesConfig {
           // Mantém o prefixo, pois o service também usa /identity-profiles no context-path
           .dedupeResponseHeader(ACCESS_CONTROL_ALLOW_ORIGIN, STRATEGY_RETAIN_FIRST)
         )
-        // Usa o nome registrado no Eureka
         .uri("lb://identity-profiles"))
+      // Rota única para o microsserviço Billing Service
+      .route("billing-service-route", r -> r
+        .path("/billing/**")
+        .filters(f -> f
+          // Mantém o prefixo, pois o service também usa /identity-profiles no context-path
+          .dedupeResponseHeader(ACCESS_CONTROL_ALLOW_ORIGIN, STRATEGY_RETAIN_FIRST)
+        )
+        .uri("lb://billing-service"))
       .build();
   }
 

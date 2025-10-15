@@ -13,18 +13,33 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>api-gateway</name>
     <description>Spring Cloud Gateway - API Gateway com Eureka Discovery</description>
-    <url/>
+    <url>https://github.com/taptrack-system/infra-domain/tree/main/api-gateway</url>
+
     <licenses>
-        <license/>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
     </licenses>
     <developers>
-        <developer/>
+        <developer>
+            <id>juhmaran</id>
+            <name>Juliane Maran</name>
+            <email>juliane.maran@taptrack.dev</email>
+            <organization>TapTrack Systems</organization>
+            <organizationUrl>https://github.com/taptrack-system</organizationUrl>
+            <roles>
+                <role>Developer</role>
+                <role>Maintainer</role>
+            </roles>
+        </developer>
     </developers>
     <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
+        <connection>scm:git:https://github.com/taptrack-system/infra-domain.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/taptrack-system/infra-domain.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/taptrack-system/infra-domain/tree/main/api-gateway</url>
     </scm>
     <properties>
         <java.version>25</java.version>
@@ -46,12 +61,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-gateway-server-webflux</artifactId>
         </dependency>
-
-        <!-- Spring Cloud Config Client -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-starter-config</artifactId>-->
-        <!--        </dependency>-->
 
         <!-- Eureka Client -->
         <dependency>
